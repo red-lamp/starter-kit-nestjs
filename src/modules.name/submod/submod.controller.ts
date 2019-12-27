@@ -9,7 +9,7 @@ import { ReadSubModDTO } from './dto/read-submod.dto';
 /**
  * Controller is used for http request and service called
  */
-@Controller()
+@Controller('submod')
 export class SubModController {
   constructor(private readonly subModService: SubModService) {}
 

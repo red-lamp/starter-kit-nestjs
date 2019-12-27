@@ -3,10 +3,14 @@
  */
 
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { SubModModule } from './submod/submod.module';
 
 @Module({
-    imports: [SubModModule],
+    imports: [
+      MongooseModule.forRoot('mongodb://localhost:27017/test'),
+      SubModModule,
+    ],
     controllers: [],
     providers: [],
   })
