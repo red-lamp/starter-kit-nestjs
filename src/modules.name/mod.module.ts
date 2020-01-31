@@ -4,7 +4,7 @@
 
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SubModModule } from './submod/submod.module';
+import { SubModModule } from './submod.mongo/submod.module';
 
 @Module({
     imports: [
