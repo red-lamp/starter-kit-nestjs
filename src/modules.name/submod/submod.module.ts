@@ -13,4 +13,5 @@ import { SubModSchema } from './schema/submod.schema';
   controllers: [SubModController],
   providers: [SubModService],
 })
+
 export class SubModModule {}
