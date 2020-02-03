@@ -73,8 +73,8 @@ jobs:
         container-name: trinity-sample-backend
         image: ${{ steps.build-image.outputs.image }}
 
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+    - name: Deploy Amazon EKS task definition
+      uses: aws-actions/amazon-eks-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: trinity
