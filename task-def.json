@@ -3,7 +3,7 @@
     "networkMode": "awsvpc", 
     "containerDefinitions": [
         {
-            "name": "trinity-starter-backend", 
+            "name": "trinity-sample-backend", 
             "image": "httpd:2.4", 
             "portMappings": [
                 {
