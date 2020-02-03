@@ -1,28 +1,20 @@
 # This workflow will build and push a new container image to Amazon ECR,
-# and then will deploy a new task definition to Amazon ECS, on every push
-# to the master branch.
+# and then will deploy to Amazon EKS using the yaml in `manifests` and Kustomize,
+# on every push to the master branch.
 #
 # To use this workflow, you will need to complete the following set-up steps:
 #
-# 1. Create an ECR repository to store your images.
-#    For example: `aws ecr create-repository --repository-name my-ecr-repo --region us-east-2`.
-#    Replace the value of `ECR_REPOSITORY` in the workflow below with your repository's name.
-#    Replace the value of `aws-region` in the workflow below with your repository's region.
-#
-# 2. Create an ECS task definition, an ECS cluster, and an ECS service.
-#    For example, follow the Getting Started guide on the ECS console:
-#      https://us-east-2.console.aws.amazon.com/ecs/home?region=us-east-2#/firstRun
-#    Replace the values for `service` and `cluster` in the workflow below with your service and cluster names.
-#
-# 3. Store your ECS task definition as a JSON file in your repository.
-#    The format should follow the output of `aws ecs register-task-definition --generate-cli-skeleton`.
-#    Replace the value of `task-definition` in the workflow below with your JSON file's name.
-#    Replace the value of `container-name` in the workflow below with the name of the container
-#    in the `containerDefinitions` section of the task definition.
-#
-# 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
-#    See the documentation for each action used below for the recommended IAM policies for this IAM user,
-#    and best practices on handling the access key credentials.
+# 1. Create an EKS cluster.
+#    For example: `eksctl create cluster`
+# 2. Create an ECR repository to store your images.
+#    For example:
+#      `aws ecr create-repository --repository-name example-eks --region us-east-2`.
+#      Replace the value of `ECR_REPOSITORY` in the workflow below with your 
+#      repository's name if you use something other than `example-eks`.
+# 3. Replace the value of `AWS_REGION` and `EKS_CLUSTER_NAME` in the workflow below
+#    with the appropriate values.
+# 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID`
+#    and `AWS_SECRET_ACCESS_KEY`.
 
 on:
   push:
@@ -36,16 +28,20 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: ap-northeast-1
+      EKS_CLUSTER_NAME: trinity
+
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v1
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-1
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -60,23 +56,29 @@ jobs:
       run: |
         # Build a docker container and
         # push it to ECR so that it can
-        # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        # be deployed to EKS.
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: task-def.json
-        container-name: trinity-sample-backend
-        image: ${{ steps.build-image.outputs.image }}
+    - name: Setup kubeconfig
+      id: setup-kubeconfig
+      run: |
+        aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
 
-    - name: Deploy Amazon EKS task definition
-      uses: aws-actions/amazon-eks-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: trinity
-        cluster: trinity
-        wait-for-service-stability: true
+    - name: Deploy k8s yaml
+      id: deploy-k8s-yaml
+      env:
+        K8S_YAML_DIR: ./manifests 
+        IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+      run: |
+        # Setup kustomize
+        cd $K8S_YAML_DIR
+        curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+        chmod u+x ./kustomize
+        ./kustomize edit set image trinity-ecr=$IMAGE_NAME
+        ./kustomize build . | kubectl apply -f -
+        # Verify deployment
+        kubectl rollout status deployment/aws-sample-trinity
+        # List Public IP of cluster
+        kubectl get services -o wide
