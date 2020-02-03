@@ -79,6 +79,6 @@ jobs:
         ./kustomize edit set image trinity-ecr=$IMAGE_NAME
         ./kustomize build . | kubectl apply -f -
         # Verify deployment
-        kubectl rollout status deployment/aws-example-octodex
+        kubectl rollout status deployment/aws-sample-trinity
         # List Public IP of cluster
         kubectl get services -o wide
