@@ -18,8 +18,8 @@ spec:
       containers:
       - name: aws-sample-trinity
         # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
-        image: REGISTRY/IMAGE:TAG
-        # image: trinity-ecr
+        # image: REGISTRY/IMAGE:TAG
+        image: trinity-ecr
         ports:
         - containerPort: 3000
         resources:
