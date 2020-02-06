@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
       - name: aws-sample-trinity
-        image: REGISTRY/IMAGE:TAG
+        # image: REGISTRY/IMAGE:TAG
+        image: trinity-nest-dev
         ports:
-          - containerPort: 8080
+          - containerPort: 3000
         resources: {}

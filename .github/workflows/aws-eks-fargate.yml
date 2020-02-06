@@ -52,7 +52,8 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: trinity-ecr
-        IMAGE_TAG: ${{ github.sha }}
+        # IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: trinity-nest-dev
       run: |
         # Build a docker container and
         # push it to ECR so that it can
