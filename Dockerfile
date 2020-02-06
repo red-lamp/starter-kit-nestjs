@@ -37,6 +37,6 @@ WORKDIR /home/node
 COPY --from=builder /home/node/package*.json /home/node/
 COPY --from=builder /home/node/dist/ /home/node/dist/
 
-RUN npm ci
+RUN npm install
 
 CMD ["node", "dist/server.js"]
