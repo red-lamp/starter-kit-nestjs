@@ -5,4 +5,4 @@ resources:
 - namespace.yml
 - deployment.yml
 - service.yml
-- ingresss.yml
+- ingress.yml
