@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: "aws-sample-trinity"
 resources:
 - namespace.yml
-- deployment.yml
 - service.yml
+- deployment.yml
 - ingress.yml
