@@ -1,25 +1,42 @@
-apiVersion: apps/v1
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: aws-sample-trinity
+#   namespace: aws-sample-trinity
+#   labels:
+#     app: aws-sample-trinity
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: aws-sample-trinity
+#   strategy: {}
+#   template:
+#     metadata:
+#       labels:
+#         app: aws-sample-trinity
+#     spec:
+#       containers:
+#       - name: aws-sample-trinity
+#         # image: REGISTRY/IMAGE:TAG
+#         image: trinity-nest-dev
+#         ports:
+#           - containerPort: 3000
+#         resources: {}
+
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: aws-sample-trinity
-  namespace: aws-sample-trinity
-  labels:
-    app: aws-sample-trinity
+  name: aws-sample-trinity-deployment
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: aws-sample-trinity
-  strategy: {}
   template:
     metadata:
-      labels:
+      labels: # labels to select/identify the deployment
         app: aws-sample-trinity
-    spec:
-      containers:
+    spec:     # pod spec                  
+      containers: 
       - name: aws-sample-trinity
-        # image: REGISTRY/IMAGE:TAG
-        image: trinity-nest-dev
+        image: trinity-nest-dev # image we pushed
         ports:
-          - containerPort: 3000
-        resources: {}
+        - containerPort: 3000
