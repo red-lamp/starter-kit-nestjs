@@ -1,15 +1,16 @@
----
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aws-sample-trinity
+  namespace: aws-sample-trinity
+  labels:
+    app: aws-sample-trinity
 spec:
   replicas: 1
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: aws-sample-trinity
+  strategy: {}
   template:
     metadata:
       labels:
@@ -17,13 +18,7 @@ spec:
     spec:
       containers:
       - name: aws-sample-trinity
-        # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
-        # image: REGISTRY/IMAGE:TAG
-        image: trinity-ecr
+        image: REGISTRY/IMAGE:TAG
         ports:
-        - containerPort: 3000
-        resources:
-          requests:
-            cpu: 250m
-          limits:
-            cpu: 500m
+          - containerPort: 8080
+        resources: {}
