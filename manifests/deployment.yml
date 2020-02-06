@@ -37,6 +37,6 @@ spec:
     spec:     # pod spec                  
       containers: 
       - name: aws-sample-trinity
-        image: trinity-nest-dev345 # image we pushed
+        image: 068950053441.dkr.ecr.ap-northeast-1.amazonaws.com/trinity-ecr:trinity-nest-dev # image we pushed
         ports:
         - containerPort: 3000
