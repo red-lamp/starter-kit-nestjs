@@ -82,3 +82,4 @@ jobs:
         kubectl rollout status deployment/aws-sample-trinity
         # List Public IP of cluster
         kubectl get services -o wide
+        kubectl get ingress

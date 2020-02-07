@@ -18,8 +18,14 @@ spec:
     spec:
       containers:
       - name: aws-sample-trinity
-        # image: REGISTRY/IMAGE:TAG
-        image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG # image we pushed
+           # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
+        # image: REGISTRY/REPO:TAG
+        # The full image will be dynamically added by Kustomize in the workflow.
+        image: trinity-ecr
         ports:
           - containerPort: 3000
-        resources: {}
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m

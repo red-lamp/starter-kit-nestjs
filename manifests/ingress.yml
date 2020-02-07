@@ -11,7 +11,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: aws-sample-trinity
               servicePort: 80
