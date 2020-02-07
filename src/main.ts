@@ -16,11 +16,11 @@ async function bootstrap() {
   const microApp = await NestFactory.create(AppModules);
   microApp.connectMicroservice({
     transport: Transport.TCP,
-    options: { retryAttempts: 5, retryDelay: 3000 },
+    options: { retryAttempts: 5, retryDelay: 5000 },
   });
 
   await microApp.startAllMicroservicesAsync();
-  await microApp.listen(3000);
+  await microApp.listen(5000);
 
   /**
    * Below code is REST APIs with fastify
