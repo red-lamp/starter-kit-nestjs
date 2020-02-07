@@ -23,7 +23,7 @@ spec:
         # The full image will be dynamically added by Kustomize in the workflow.
         image: trinity-ecr
         ports:
-          - containerPort: 3000
+          - containerPort: 5000
         resources:
           requests:
             cpu: 250m
