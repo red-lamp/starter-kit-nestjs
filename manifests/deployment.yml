@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aws-sample-trinity
-  namespace: aws-sample-trinity
+  name: trinity-apis
+  namespace: trinity-apis
   labels:
-    app: aws-sample-trinity
+    app: trinity-apis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: aws-sample-trinity
+      app: trinity-apis
   strategy: {}
   template:
     metadata:
       labels:
-        app: aws-sample-trinity
+        app: trinity-apis
     spec:
       containers:
-      - name: aws-sample-trinity
+      - name: trinity-apis
            # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
         # image: REGISTRY/REPO:TAG
         # The full image will be dynamically added by Kustomize in the workflow.
-        image: trinity-ecr
+        image: trinity
         ports:
           - containerPort: 5000
         resources:

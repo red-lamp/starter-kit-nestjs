@@ -30,7 +30,7 @@ jobs:
 
     env:
       AWS_REGION: ap-northeast-1
-      EKS_CLUSTER_NAME: fargate-tutorial-cluster
+      EKS_CLUSTER_NAME: trinity
 
     steps:
     - name: Checkout
@@ -51,7 +51,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: trinity-ecr
+        ECR_REPOSITORY: trinity
         IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build a docker container and
@@ -76,11 +76,11 @@ jobs:
         cd $K8S_YAML_DIR
         curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
-        ./kustomize edit set image trinity-ecr=$IMAGE_NAME
+        ./kustomize edit set image trinity=$IMAGE_NAME
         ./kustomize build . | kubectl apply -f -
         # Verify deployment
-        kubectl rollout status deployment/aws-sample-trinity
+        kubectl rollout status deployment/trinity-apis
         # List Public IP of cluster
         kubectl get services -o wide
         kubectl get ingress
-        kubectl describe ing -n aws-sample-trinity aws-sample-trinity
+        kubectl describe ing -n trinity-apis trinity-apis

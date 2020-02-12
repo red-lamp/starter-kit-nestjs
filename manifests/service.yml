@@ -1,11 +1,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: aws-sample-trinity
-  namespace: aws-sample-trinity
+  name: trinity-apis
+  namespace: trinity-apis
 spec:
   selector:
-    app: aws-sample-trinity
+    app: trinity-apis
   type: NodePort
   ports:
   - protocol: TCP
