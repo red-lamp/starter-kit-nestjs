@@ -17,7 +17,7 @@ spec:
         app: trinity-apis
     spec:
       containers:
-      - name: trinity
+      - name: trinity-apis
            # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
         # image: REGISTRY/REPO:TAG
         # The full image will be dynamically added by Kustomize in the workflow.
