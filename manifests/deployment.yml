@@ -4,6 +4,9 @@ metadata:
   name: trinity-apis
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: trinity-apis
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -17,7 +20,7 @@ spec:
       containers:
       - name: trinity-apis
         # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
-        # image: REGISTRY/REPO:TAG
+        # image: REGISTRY/REPO:TAGs
         # The full image will be dynamically added by Kustomize in the workflow.
         image: trinity
         ports:
