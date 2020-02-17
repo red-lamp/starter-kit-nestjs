@@ -21,7 +21,7 @@ on:
     branches:
       - master
 
-name: Deploy to Amazon EKS 17022020 17:32
+name: Deploy to Amazon EKS 17022020 18:04
 
 jobs:
   deploy:
