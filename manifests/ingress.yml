@@ -1,17 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: extensions/v1
 kind: Ingress
 metadata:
-  name: trinity-apis
-  namespace: trinity-apis
+  name: "trinity-apis-ingress"
+  namespace: "trinity-apis"
   annotations:
     kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/scheme: internet-facing
+  labels:
+    app: trinity-apis-ingress
 spec:
   rules:
     - http:
         paths:
           - path: /*
             backend:
-              serviceName: trinity-apis
+              serviceName: "trinity-apis"
               servicePort: 80

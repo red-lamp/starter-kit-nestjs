@@ -2,15 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: trinity-apis
-  namespace: trinity-apis
-  labels:
-    app: trinity-apis
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: trinity-apis
-  strategy: {}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
   template:
     metadata:
       labels:
@@ -18,12 +16,12 @@ spec:
     spec:
       containers:
       - name: trinity-apis
-           # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
+        # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
         # image: REGISTRY/REPO:TAG
         # The full image will be dynamically added by Kustomize in the workflow.
         image: trinity
         ports:
-          - containerPort: 5000
+        - containerPort: 5000
         resources:
           requests:
             cpu: 250m
