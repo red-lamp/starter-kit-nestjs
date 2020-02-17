@@ -18,14 +18,7 @@ spec:
     spec:
       containers:
       - name: trinity-apis
-           # image: 00000000000000.dkr.ecr.my-region.amazonaws.com/example-eks:tag
-        # image: REGISTRY/REPO:TAG
-        # The full image will be dynamically added by Kustomize in the workflow.
         image: trinity
         ports:
-          - containerPort: 5000
-        resources:
-          requests:
-            cpu: 250m
-          limits:
-            cpu: 500m
+          - containerPort: 8080
+        resources: {}
