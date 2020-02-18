@@ -20,5 +20,5 @@ spec:
       - name: trinity-apis
         image: trinity
         ports:
-          - containerPort: 8080
+          - containerPort: 5000
         resources: {}
