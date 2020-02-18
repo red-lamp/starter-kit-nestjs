@@ -3,10 +3,12 @@ apiVersion: v1
 metadata:
   name: trinity-apis
   namespace: trinity-apis
+  annotations:
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
+  type: ClusterIP
   selector:
     app: trinity-apis
-  type: NodePort
   ports:
   - protocol: TCP
     port: 80
