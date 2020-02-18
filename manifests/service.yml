@@ -14,7 +14,3 @@ spec:
     port: 80
     name: http
     targetPort: 5000
-  - protocol: TCP
-    port: 443
-    name: https
-    targetPort: 5000
