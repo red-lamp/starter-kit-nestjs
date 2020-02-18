@@ -14,14 +14,13 @@ metadata:
     app: trinity-apis
 spec:
   rules:
-    - host: lightmock.com
-      http:
-          paths:
-            - path: /*
-              backend:
-                serviceName: ssl-redirect
-                servicePort: use-annotation
-            - path: /*
-              backend:
-                serviceName: trinity-apis
-                servicePort: 80
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation
+          - path: /*
+            backend:
+              serviceName: trinity-apis
+              servicePort: 80
